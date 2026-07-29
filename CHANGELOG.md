@@ -4,6 +4,19 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
+---
+
+## v1.0.0 "Tenancy" - Multi-tenant SaaS modules for upMVC (2026-07-29)
+
+First release. Requires **upMVC ^2.4**, which introduced the library-mode
+kernel (`App\Etc\Application`, module and migration paths, middleware
+factories) this pack registers against.
+
+Ships nine modules, two middlewares and a service provider: JWT auth with
+refresh tokens, tenant registration and resolution, plans with feature gating,
+a platform admin API, and web shells for the admin, tenant app and public
+tenant page.
+
 ### Database
 - **`database/migrations/001_saas_layer.sql`** — New. Creates `plans`, `tenants`, `refresh_tokens` and seeds three starter plans. Moved out of the upMVC kernel, where these tenant tables did not belong — the kernel owns `users` only.
   - Previously `database/migrations/` contained nothing but `.gitkeep`, while `SaasServiceProvider` already registered it as a migration path. Installing the pack therefore created **no tables at all**.
