@@ -36,7 +36,7 @@ Controller → Model → JSON response
 
 ```
 src/Modules/
-├── Api/
+├── Api/Modules/
 │   ├── Auth/           POST /api/auth/login|refresh|logout
 │   ├── Plans/          GET  /api/plans, /api/plans/{id}
 │   ├── Tenants/        POST /api/tenants/register

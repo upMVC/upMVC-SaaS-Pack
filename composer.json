@@ -6,7 +6,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.1",
-        "bitshost/upmvc": "^2.1",
+        "bitshost/upmvc": "^2.4",
         "phpmailer/phpmailer": "^6.9"
     },
     "require-dev": {
@@ -40,5 +40,10 @@
         "platform-admin",
         "feature-flags"
     ],
-    "homepage": "https://upmvc.com"
+    "homepage": "https://upmvc.com",
+    "autoload-dev": {
+        "psr-4": {
+            "BitsHost\\UpmvcSaas\\Tests\\": "tests/"
+        }
+    }
 }

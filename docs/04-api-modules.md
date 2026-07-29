@@ -2,10 +2,10 @@
 
 ## The Api/* pattern
 
-All business logic lives under `src/Modules/Api/`. Each subdirectory is one domain — a standard upMVC module with Controller, Model, and Routes.
+All business logic lives under `src/Modules/Api/Modules/`. Each subdirectory is one domain — a standard upMVC module with Controller, Model, and Routes.
 
 ```
-src/Modules/Api/
+src/Modules/Api/Modules/
 ├── Auth/
 │   ├── Controller.php
 │   ├── Model.php
@@ -15,7 +15,15 @@ src/Modules/Api/
 └── Admin/
 ```
 
-Modules are auto-discovered by `InitModsImproved` — drop a folder with `Routes/Routes.php` and it works. No registration required.
+Modules are auto-discovered by `InitModsImproved`, which scans three fixed glob patterns relative to each registered module path:
+
+| Pattern | Example |
+|---|---|
+| `*/Routes/Routes.php` | `src/Modules/Home/` |
+| `*/Modules/*/Routes/Routes.php` | `src/Modules/Api/Modules/Auth/` |
+| `*/Modules/*/Modules/*/Routes/Routes.php` | three levels deep |
+
+The literal `Modules/` segment between levels is **required** — `src/Modules/Api/Bookings/` is never discovered, and fails silently with no error. Get the depth right and no registration is needed; drop the folder in and it works.
 
 ---
 
@@ -25,7 +33,7 @@ Example: adding a `Bookings` module.
 
 **1. Create the folder structure:**
 ```
-src/Modules/Api/Bookings/
+src/Modules/Api/Modules/Bookings/
 ├── Controller.php
 ├── Model.php
 └── Routes/Routes.php
@@ -35,7 +43,7 @@ src/Modules/Api/Bookings/
 
 ```php
 <?php
-namespace App\Modules\Api\Bookings;
+namespace App\Modules\Api\Modules\Bookings;
 
 use BitsHost\UpmvcSaas\Http\SaasApiController;
 
@@ -60,7 +68,7 @@ class Controller extends SaasApiController
 
 ```php
 <?php
-namespace App\Modules\Api\Bookings;
+namespace App\Modules\Api\Modules\Bookings;
 
 use App\Common\Bmvc\BaseModel;
 
@@ -81,9 +89,9 @@ class Model extends BaseModel
 
 ```php
 <?php
-namespace App\Modules\Api\Bookings\Routes;
+namespace App\Modules\Api\Modules\Bookings\Routes;
 
-use App\Modules\Api\Bookings\Controller;
+use App\Modules\Api\Modules\Bookings\Controller;
 
 class Routes
 {

@@ -24,7 +24,7 @@ The `Api/*` flat module structure works well. The dual auth system (JWT for API,
 
 ## The one thing that is not optional
 
-**PSR-4 compliance.** PHP's autoloader requires namespaces to match directory paths exactly — and on Linux servers, this is case-sensitive. `App\Modules\Api\Auth` must live in `src/Modules/Api/Auth/`. Get this right, everything else is flexible.
+**PSR-4 compliance.** PHP's autoloader requires namespaces to match directory paths exactly — and on Linux servers, this is case-sensitive. `App\Modules\Api\Modules\Auth` must live in `src/Modules/Api/Modules/Auth/`. Get this right, everything else is flexible.
 
 For the base framework autoloading rules see the [upMVC documentation](https://github.com/upMVC/upMVC/tree/main/docs).
 
