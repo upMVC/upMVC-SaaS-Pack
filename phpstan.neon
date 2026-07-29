@@ -1,0 +1,19 @@
+parameters:
+    level: 5
+    treatPhpDocTypesAsCertain: false
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - vendor
+    ignoreErrors:
+        # Runtime constants defined by the kernel's Config::initConfig() before
+        # any module runs. upMVC's own phpstan.neon ignores the same set.
+        -
+            message: '#Constant BASE_URL not found#'
+            path: src/*
+        -
+            message: '#Constant SITEPATH not found#'
+            path: src/*
+    bootstrapFiles:
+        - vendor/autoload.php

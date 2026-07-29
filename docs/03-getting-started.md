@@ -71,13 +71,29 @@ JWT_REFRESH_TTL=2592000
 
 ## 4. Load Schema / Demo Data
 
-During early local development, import the demo schema:
+Run the migrations — the pack registers its own migration folder from its
+service provider, so the runner picks it up automatically:
 
 ```bash
-mysql -u root -p my_saas_db < vendor/bitshost/upmvc-saas-pack/database/demo.sql
+php vendor/bitshost/upmvc/src/Tools/migrate.php
 ```
 
-The starter app can wrap this in its own setup script later.
+Then load the demo tenants, users and plans:
+
+```bash
+mysql -u root -p my_saas_db < vendor/bitshost/upmvc-saas-pack/database/seed.sql
+```
+
+Prefer plain SQL with no tooling? Import the two schema files instead —
+kernel first, because `refresh_tokens` has a foreign key to `users`:
+
+```bash
+mysql -u root -p my_saas_db < vendor/bitshost/upmvc/database/schema.sql
+mysql -u root -p my_saas_db < vendor/bitshost/upmvc-saas-pack/database/schema.sql
+mysql -u root -p my_saas_db < vendor/bitshost/upmvc-saas-pack/database/seed.sql
+```
+
+See `database/README.md` in the pack for the full file map and demo logins.
 
 ## 5. Test The Pack Routes
 

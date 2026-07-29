@@ -56,7 +56,7 @@ To log in as platform admin: go to `/auth`, enter your `platform_admin` credenti
 
 ## Adding platform admin features
 
-Add methods to `src/Modules/Api/Admin/Controller.php` and `Model.php`, register routes in `src/Modules/Api/Admin/Routes/Routes.php`.
+Add methods to `src/Modules/Api/Modules/Admin/Controller.php` and `Model.php`, register routes in `src/Modules/Api/Modules/Admin/Routes/Routes.php`.
 
 Example — suspend all trial tenants older than 30 days:
 

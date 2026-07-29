@@ -2,7 +2,7 @@
 
 namespace App\Modules\PlatformAdmin;
 
-use App\Etc\JwtService;
+use App\Etc\Middleware\JwtAuthMiddleware;
 
 class Controller
 {
@@ -39,7 +39,7 @@ class Controller
         }
 
         $token   = trim($_POST['token'] ?? '');
-        $payload = $token !== '' ? (new JwtService())->verify($token) : null;
+        $payload = $token !== '' ? JwtAuthMiddleware::verifyToken($token) : null;
 
         if ($payload === null) {
             header('Location: ' . BASE_URL . '/platform-admin');
