@@ -131,6 +131,15 @@ final class PackStructureTest extends TestCase
                 "Migrations must create the $table table"
             );
         }
+
+        // Harvest ops layer (002)
+        foreach (['platform_settings', 'smtp_settings', 'email_log', 'audit_log', 'i18n_overlays'] as $table) {
+            $this->assertMatchesRegularExpression(
+                '/CREATE TABLE (IF NOT EXISTS )?`?' . $table . '`?/i',
+                $sql,
+                "Ops migrations must create the $table table"
+            );
+        }
     }
 
     public function testSchemaAndSeedShipForNonMigrationInstalls(): void

@@ -5,6 +5,7 @@ vendor/
 coverage/
 storage/
 logs/
+vault/
 *.log
 *.cache
 *.tmp

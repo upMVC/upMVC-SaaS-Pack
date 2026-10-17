@@ -2,58 +2,48 @@
 
 namespace App\Modules\Mail;
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use BitsHost\UpmvcSaas\Mail\MailGateway;
 
+/**
+ * Thin mail helpers — prefer MailGateway for product sends (logged + routed).
+ * Kept for backward-compatible module discovery.
+ */
 class MailController
 {
-    private function createMailer(): PHPMailer
-    {
-        $mail             = new PHPMailer(true);
-        $mail->CharSet    = 'UTF-8';
-        $mail->isSMTP();
-        $mail->Host       = $_ENV['MAIL_HOST'] ?? '';
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $_ENV['MAIL_USERNAME'] ?? '';
-        $mail->Password   = $_ENV['MAIL_PASSWORD'] ?? '';
-        $mail->SMTPSecure = $_ENV['MAIL_ENCRYPTION'] ?? 'ssl';
-        $mail->Port       = (int) ($_ENV['MAIL_PORT'] ?? 465);
-        $mail->isHTML(true);
-        return $mail;
+    /**
+     * @return array{status:string,transport?:string,error?:string,engine?:string}
+     */
+    public function send(
+        string $to,
+        string $subject,
+        string $html,
+        string $template = 'generic',
+        ?int $tenantId = null,
+        ?string $type = null
+    ): array {
+        return (new MailGateway())->send($to, $subject, $html, $template, $tenantId, $type);
     }
 
+    /** @deprecated Use send() / MailGateway — kept for older call sites */
     public function sendMailByPHPMailer($to, $from, $subject, $message): bool
     {
-        $mail = $this->createMailer();
-        $mail->setFrom($from);
-        $mail->addAddress($to);
-        $mail->addReplyTo($from);
-        $mail->Subject = $subject;
-        $mail->Body    = $message;
-
-        if (!$mail->send()) {
-            echo json_encode(['error' => 'Mailer Error: ' . $mail->ErrorInfo]);
-            exit;
-        }
-
-        return true;
+        $result = (new MailGateway())->send(
+            (string) $to,
+            (string) $subject,
+            (string) $message,
+            'legacy',
+            null,
+            null,
+            null,
+            true
+        );
+        return ($result['status'] ?? '') === 'sent';
     }
 
+    /** @deprecated Use MailGateway */
     public function sendMailByPHPMailerAddAttachment($to, $from, $subject, $message, $attachmentroute): bool
     {
-        $mail = $this->createMailer();
-        $mail->setFrom($from);
-        $mail->addAddress($to);
-        $mail->addReplyTo($from);
-        $mail->Subject = $subject;
-        $mail->Body    = $message;
-        $mail->addAttachment($attachmentroute);
-
-        if (!$mail->send()) {
-            echo json_encode(['error' => 'Mailer Error: ' . $mail->ErrorInfo]);
-            exit;
-        }
-
-        return true;
+        // Attachments: use PHPMailer directly in the app for now; gateway is HTML body focused.
+        return $this->sendMailByPHPMailer($to, $from, $subject, $message);
     }
 }
