@@ -6,8 +6,10 @@ You are in the **installable SaaS pack** for upMVC — not a standalone app and 
 
 - `README.md` — tenancy + Harvest overview
 - `docs/09-harvest-ops.md` — mail, notify registry, audit, TOTP, Attention, dual-unseal
+- `docs/SAAS_NEXT.md` — compose CLI (`bin/saas-next.php`) + `saas-kit.json` discovery
 - `CHANGELOG.md` — what shipped
 - `src/Saas/SaasServiceProvider.php` — module/migration/middleware wiring
+- `saas-kit.json` — manifest for saas-next / future packs
 
 ## Also load (from upMVC, when editing agent behaviour)
 

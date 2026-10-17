@@ -4,7 +4,12 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
-_(empty — next changes go here)_
+### Added
+- **`bin/saas-next.php`** — compose helper for host apps (`doctor`, `init`, `agent`, `scaffold-domain`, `packs`)
+- **`saas-kit.json`** — pack manifest so saas-next (and future tools) discover this floor
+- **`docs/SAAS_NEXT.md`** + **`docs/templates/AGENTS.host.md`**
+
+Discovery scans `vendor/*/*/saas-kit.json` so optional packs (e.g. payments) appear without hard-coding.
 
 ## [1.1.0] — Harvest: shared SaaS ops kernel (2026-10-17)
 

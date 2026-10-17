@@ -102,11 +102,24 @@ Use Composer path repositories from the host app while developing locally:
 }
 ```
 
+## saas-next (host helper)
+
+From a composed host app:
+
+```bash
+php vendor/bitshost/upmvc-saas-pack/bin/saas-next.php doctor
+php vendor/bitshost/upmvc-saas-pack/bin/saas-next.php init
+php vendor/bitshost/upmvc-saas-pack/bin/saas-next.php agent --goal "…"
+```
+
+Discovers other packs via each package’s **`saas-kit.json`** (payments included). See [`docs/SAAS_NEXT.md`](docs/SAAS_NEXT.md).
+
 ## Agent / docs
 
 - Human docs: [`docs/`](docs/) — especially [`09-harvest-ops.md`](docs/09-harvest-ops.md)
 - Kernel agent JSON (when pack is installed): **upMVC** `docs/agent/upmvc-saas-pack.json` — do not duplicate a full agent pack here
 - Short agent pointer in this repo: [`AGENTS.md`](AGENTS.md)
+- Host template: [`docs/templates/AGENTS.host.md`](docs/templates/AGENTS.host.md)
 
 ## Notes
 

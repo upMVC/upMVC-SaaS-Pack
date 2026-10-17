@@ -1,0 +1,30 @@
+{
+  "id": "saas",
+  "name": "upMVC SaaS Pack",
+  "composer": "bitshost/upmvc-saas-pack",
+  "provider": "BitsHost\\UpmvcSaas\\SaasServiceProvider",
+  "optional": false,
+  "env_keys": [
+    "DOMAIN_NAME",
+    "SITE_PATH",
+    "DB_HOST",
+    "DB_NAME",
+    "DB_USER",
+    "DB_PASS",
+    "APP_KEY",
+    "JWT_SECRET",
+    "APP_ENV"
+  ],
+  "migrations": true,
+  "docs": [
+    "docs/09-harvest-ops.md",
+    "README.md"
+  ],
+  "agent_hints": [
+    "Scope every tenant query with tenant_id",
+    "Register domain notify types into NotifyRegistry — pack registry stays empty",
+    "Prefer BitsHost\\UpmvcSaas MailGateway / SecretBox / Totp / AuditLog — do not fork copies",
+    "Keep dual-unseal legacy peppers until consumers re-saved secrets",
+    "Domain modules live under src/Modules/Api/Modules/{Domain}/"
+  ]
+}

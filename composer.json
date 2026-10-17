@@ -49,5 +49,8 @@
         "psr-4": {
             "BitsHost\\UpmvcSaas\\Tests\\": "tests/"
         }
-    }
+    },
+    "bin": [
+        "bin/saas-next.php"
+    ]
 }
