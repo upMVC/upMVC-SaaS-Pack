@@ -1,0 +1,22 @@
+{
+    "common": {
+        "loading": "Se încarcă…",
+        "save": "Salvează",
+        "cancel": "Anulează",
+        "name": "Nume",
+        "email": "Email",
+        "username": "Utilizator",
+        "status": "Status",
+        "language": "Limbă",
+        "saved": "Salvat",
+        "failed_load": "Nu s-au putut încărca datele.",
+        "sign_out": "Deconectare",
+        "done": "Gata"
+    },
+    "platform": {
+        "ops_tab": "Ops",
+        "attention_title": "Necesită atenție",
+        "attention_clear": "Nimic de rezolvat.",
+        "languages_tab": "Limbi"
+    }
+}

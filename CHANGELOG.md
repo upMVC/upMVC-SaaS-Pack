@@ -4,6 +4,29 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
+### Harvest — ops / mail / notify kernel / i18n / MFA primitives
+
+Lifted from the `myCMMS-PHP` probe into pack libraries so every SaaS product gets shared factory pieces without CMMS domain coupling. See `docs/09-harvest-ops.md`.
+
+#### Added
+- **`database/migrations/002_saas_ops_layer.sql`** — `platform_settings`, `smtp_settings`, `email_log`, `audit_log`, `notification_*`, `i18n_overlays`, optional `users.totp_*`.
+- **`BitsHost\UpmvcSaas\Mail\MailGateway`** + **`Security\SecretBox`** — platform SMTP, plan-gated tenant SMTP, `.env` fallback, send log.
+- **`BitsHost\UpmvcSaas\Notify\{NotifyRegistry,NotifyGate,Notify}`** — empty type registry (apps register), global pause, instant fire with mutes.
+- **`BitsHost\UpmvcSaas\Audit\AuditLog`** — append-only audit with impersonator support.
+- **`BitsHost\UpmvcSaas\Security\Totp`** — RFC 6238 helper for platform MFA.
+- **`BitsHost\UpmvcSaas\Ops\{Attention,PlatformSettings,SchedulerHeartbeat}`** — generic Attention + flags + cron heartbeat.
+- **`BitsHost\UpmvcSaas\I18n\Catalog`** — file catalogs + dotted-key DB overlays.
+- **`Api/Modules/PlatformOps`**, **`Api/Modules/I18n`** — thin overridable API surfaces.
+- **`public/lang/{en,ro}.json`** — minimal shell i18n seed.
+- **`tests/Unit/HarvestKernelTest.php`** — Totp, registry, audit actors, catalog overlays, migration guard.
+- **`docs/09-harvest-ops.md`** — wiring guide and pack vs new-pack rule.
+
+#### Changed
+- **`App\Modules\Mail\MailController`** — delegates to `MailGateway` (legacy helpers kept, deprecated).
+
+#### Deliberately out of pack
+- Domain notify types, payments/billing, full PlatformAdmin UI tabs, AI translate.
+
 ---
 
 ## v1.0.0 "Tenancy" - Multi-tenant SaaS modules for upMVC (2026-07-29)

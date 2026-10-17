@@ -1,0 +1,22 @@
+{
+    "common": {
+        "loading": "Loading…",
+        "save": "Save",
+        "cancel": "Cancel",
+        "name": "Name",
+        "email": "Email",
+        "username": "Username",
+        "status": "Status",
+        "language": "Language",
+        "saved": "Saved",
+        "failed_load": "Failed to load data.",
+        "sign_out": "Sign out",
+        "done": "Done"
+    },
+    "platform": {
+        "ops_tab": "Ops",
+        "attention_title": "Needs attention",
+        "attention_clear": "Nothing needs attention.",
+        "languages_tab": "Languages"
+    }
+}
