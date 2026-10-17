@@ -1,11 +1,14 @@
 # 02 — Architecture
 
-## The two layers
+## Pack layers (tenancy + Harvest)
 
-upMVC-SaaS has two distinct layers that coexist:
+The pack is consumed by a host upMVC app. Inside the pack, think in three layers:
+
+### 0. Harvest libraries (`BitsHost\UpmvcSaas\*`)
+Shared ops kernel under `src/Saas/`: `MailGateway`, `SecretBox`, `Notify*`, `AuditLog`, `Totp`, `Ops\*`, `I18n\Catalog`. Not domain-specific. Apps register notify types and may thin-extend these classes. Details: [09 — Harvest ops](09-harvest-ops.md).
 
 ### 1. API layer (`Api/*` modules)
-Stateless, JWT-authenticated, JSON responses. This is where all business logic lives. Consumed by frontends, mobile apps, or other services.
+Stateless, JWT-authenticated, JSON responses. Tenancy APIs (Auth, Plans, Tenants, Admin) plus thin Harvest APIs (`PlatformOps`, `I18n`). Domain business logic belongs in the **host app**, not this pack.
 
 ### 2. Web shell layer (session-based)
 PHP-rendered HTML shells for pages that need to exist as web pages (`/platform-admin`, `/app/{slug}/admin`). These shells do minimal work — session guard, render the HTML page — and the page itself calls the API via JavaScript.
@@ -41,16 +44,21 @@ src/Modules/
 │   ├── Plans/          GET  /api/plans, /api/plans/{id}
 │   ├── Tenants/        POST /api/tenants/register
 │   │                   GET|PATCH /api/tenants/{id}
-│   └── Admin/          GET  /api/admin/tenants|dashboard|metrics
-│                       PATCH /api/admin/tenants/{id}/status|plan
-│                       POST /api/admin/impersonate
-│                       PUT  /api/admin/plans/{id}
+│   ├── Admin/          GET  /api/admin/tenants|dashboard|metrics
+│   │                   PATCH /api/admin/tenants/{id}/status|plan
+│   │                   POST /api/admin/impersonate
+│   │                   PUT  /api/admin/plans/{id}
+│   ├── PlatformOps/    Harvest — settings, Attention, SMTP, MFA helpers
+│   └── I18n/           Harvest — catalog + overlays
 ├── Auth/               /auth — session login/logout (web)
 ├── PlatformAdmin/      /platform-admin — web shell
 ├── TenantApp/          /app/{slug}/admin — tenant web shell
 ├── TenantShop/         /app/{slug} — public tenant page
 ├── Home/               / — landing page
-└── Mail/               email service (not a route module)
+└── Mail/               thin shell → BitsHost\UpmvcSaas\Mail\MailGateway
+
+src/Saas/               Harvest libraries (Mail, Notify, Audit, Security, Ops, I18n, Http, Middleware)
+database/migrations/    001_saas_layer.sql + 002_saas_ops_layer.sql
 ```
 
 ---

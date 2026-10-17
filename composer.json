@@ -1,6 +1,6 @@
 {
     "name": "bitshost/upmvc-saas-pack",
-    "description": "Installable SaaS module pack for upMVC: tenants, JWT auth flows, plans, platform admin, and tenant web shells.",
+    "description": "Installable SaaS module pack for upMVC: tenancy (JWT, plans, platform admin) plus Harvest ops kernel (mail, notify, audit, TOTP, i18n).",
     "type": "library",
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -38,7 +38,11 @@
         "jwt",
         "tenant-management",
         "platform-admin",
-        "feature-flags"
+        "feature-flags",
+        "harvest",
+        "mail-gateway",
+        "totp",
+        "audit-log"
     ],
     "homepage": "https://upmvc.com",
     "autoload-dev": {

@@ -1,43 +1,46 @@
-# upMVC-SaaS Documentation
+# upMVC SaaS Pack — Documentation
 
-**upMVC-SaaS** is a multi-tenant SaaS boilerplate built on top of the upMVC PHP framework.
+Installable Composer library **`bitshost/upmvc-saas-pack`**: multi-tenant SaaS layer for [upMVC](https://github.com/upMVC/upMVC).
 
-This documentation covers only what is **specific to the SaaS layer** — multi-tenancy, JWT authentication, plans, feature gating, and the API architecture.
+This documentation covers what is **specific to the pack** — tenancy, JWT auth flows, plans, feature gating, Harvest ops kernel, and API patterns.
 
-For the base framework (routing, modules, MVC, configuration, middleware) refer to the **upMVC documentation**:
+For the base framework (routing, modules, MVC, configuration, middleware, agent pack) refer to **upMVC**:
 
-> **upMVC Docs** → https://github.com/upMVC/upMVC/tree/main/docs
+> **upMVC Docs** → https://github.com/upMVC/upMVC/tree/main/docs  
+> **Agent SaaS knowledge** → upMVC `docs/agent/upmvc-saas-pack.json` (updated for Harvest)
 
 ---
 
-## SaaS Documentation Index
+## Documentation index
 
 | Doc | What it covers |
 |-----|---------------|
-| [01 — What is upMVC-SaaS](01-what-is-saas.md) | The concept, why this layer exists, what problem it solves |
-| [02 — Architecture](02-architecture.md) | Api/* structure, middleware pipeline, the two auth systems |
-| [03 — Getting Started](03-getting-started.md) | Fork, configure, run migrations, create first tenant |
-| [04 — API Modules](04-api-modules.md) | How Api/* modules work and how to add your own domain |
-| [05 — Auth & JWT](05-auth-jwt.md) | JWT login, refresh token rotation, logout, token theft detection |
-| [06 — Tenants & Plans](06-tenants-plans.md) | Multi-tenancy, plan gating, feature flags, tenant lifecycle |
-| [07 — Platform Admin](07-platform-admin.md) | The admin shell, Api/Admin endpoints, impersonation |
-| [08 — Your Way](08-your-way.md) | This is a starting point, not a rulebook |
+| [01 — What is this SaaS layer](01-what-is-saas.md) | Concept, why the pack exists |
+| [02 — Architecture](02-architecture.md) | Tenancy + Harvest layers, middleware, modules |
+| [03 — Getting Started](03-getting-started.md) | Require pack, configure, migrate, first tenant |
+| [04 — API Modules](04-api-modules.md) | How Api/* modules work and how to add domain |
+| [05 — Auth & JWT](05-auth-jwt.md) | JWT login, refresh, logout, theft detection |
+| [06 — Tenants & Plans](06-tenants-plans.md) | Multi-tenancy, plan gating, lifecycle |
+| [07 — Platform Admin](07-platform-admin.md) | Admin shell, Api/Admin, impersonation |
+| [08 — Your Way](08-your-way.md) | Starting point, not a rulebook |
+| [09 — Harvest ops](09-harvest-ops.md) | Mail, notify kernel, audit, TOTP, Attention, i18n, dual-unseal |
 
 ---
 
 ## Quick orientation
 
 ```
-src/Modules/
-├── Api/                ← the backbone — your business logic lives here
-│   ├── Auth/           JWT login / refresh / logout
-│   ├── Plans/          public plan listing
-│   ├── Tenants/        tenant registration + CRUD
-│   └── Admin/          platform admin API
-├── Auth/               session-based web login (for the PHP shell pages)
-├── PlatformAdmin/      thin web shell → calls Api/Admin via JS
-├── TenantApp/          tenant web application shell
-├── TenantShop/         tenant storefront shell
-├── Home/               public landing page
-└── Mail/               email service (PHPMailer via Composer)
+vendor/bitshost/upmvc-saas-pack/
+├── src/Modules/
+│   ├── Api/Modules/
+│   │   ├── Auth/, Plans/, Tenants/, Admin/   ← tenancy APIs
+│   │   ├── PlatformOps/, I18n/              ← Harvest thin APIs
+│   ├── Auth/, PlatformAdmin/, TenantApp/, …
+│   └── Mail/                               ← delegates to MailGateway
+├── src/Saas/                               ← Harvest libraries (BitsHost\UpmvcSaas\*)
+└── database/migrations/
+    ├── 001_saas_layer.sql                  ← plans, tenants, refresh_tokens
+    └── 002_saas_ops_layer.sql              ← SMTP, email_log, audit, notify, i18n, totp
 ```
+
+Host app owns domain under `src/Modules/Api/Modules/{Domain}/` and may thin-extend Harvest classes (they are not `final`).

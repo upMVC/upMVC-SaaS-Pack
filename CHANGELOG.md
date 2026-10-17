@@ -4,7 +4,11 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
-### Harvest — ops / mail / notify kernel / i18n / MFA primitives
+_(empty — next changes go here)_
+
+## [1.1.0] — Harvest: shared SaaS ops kernel (2026-10-17)
+
+Release: https://github.com/upMVC/upMVC-SaaS-Pack/releases/tag/v1.1.0
 
 Lifted from the `myCMMS-PHP` probe into pack libraries so every SaaS product gets shared factory pieces without CMMS domain coupling. See `docs/09-harvest-ops.md`.
 
