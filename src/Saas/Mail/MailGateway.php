@@ -17,7 +17,7 @@ use PHPMailer\PHPMailer\PHPMailer;
  *
  * Platform admin sends use steps 2–4 only (no tenant SMTP).
  */
-final class MailGateway extends BaseModel
+class MailGateway extends BaseModel
 {
     private const RESERVED = '/\.(test|invalid|example|localhost|local)$/i';
     private const PORTS = [25, 465, 587, 2525];

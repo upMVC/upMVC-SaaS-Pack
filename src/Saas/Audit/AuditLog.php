@@ -8,7 +8,7 @@ use App\Etc\Database;
  * Append-only audit trail (tenant or platform).
  * When the JWT has impersonated=true, pass impersonator_id so Activity can filter.
  */
-final class AuditLog
+class AuditLog
 {
     /**
      * @param array<string,mixed> $user JWT / session user claims

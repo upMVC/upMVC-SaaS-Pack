@@ -8,7 +8,7 @@ use App\Etc\Config\Environment;
  * RFC 6238 TOTP (SHA-1, 6 digits, 30s) — Google / Microsoft Authenticator compatible.
  * Secrets are sealed with JWT_SECRET so they are not stored in plaintext.
  */
-final class Totp
+class Totp
 {
     private const PERIOD = 30;
     private const B32 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
@@ -96,18 +96,32 @@ final class Totp
         }
         $iv = substr($raw, 0, 16);
         $cipher = substr($raw, 16);
-        $plain = openssl_decrypt($cipher, 'AES-256-CBC', self::sealKey(), OPENSSL_RAW_DATA, $iv);
-        return $plain === false || $plain === '' ? null : $plain;
+        foreach (self::sealKeyCandidates() as $key) {
+            $plain = openssl_decrypt($cipher, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+            if ($plain !== false && $plain !== '') {
+                return $plain;
+            }
+        }
+        return null;
     }
 
     private static function sealKey(): string
+    {
+        return self::sealKeyCandidates()[0];
+    }
+
+    /** @return list<string> */
+    private static function sealKeyCandidates(): array
     {
         // Prefer process env so unit tests / CLI do not force-load .env
         $secret = (string) (getenv('JWT_SECRET') ?: ($_ENV['JWT_SECRET'] ?? '') ?: Environment::get('JWT_SECRET', ''));
         if ($secret === '') {
             throw new \RuntimeException('JWT_SECRET is required to seal TOTP secrets');
         }
-        return hash('sha256', 'upmvc-saas-totp|' . $secret, true);
+        return [
+            hash('sha256', 'upmvc-saas-totp|' . $secret, true),
+            hash('sha256', 'mycmms-totp|' . $secret, true), // myCMMS-PHP legacy
+        ];
     }
 
     private static function hotp(string $secret, int $counter): string

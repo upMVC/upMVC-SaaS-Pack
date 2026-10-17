@@ -7,6 +7,7 @@ namespace BitsHost\UpmvcSaas\Tests\Unit;
 use BitsHost\UpmvcSaas\Audit\AuditLog;
 use BitsHost\UpmvcSaas\I18n\Catalog;
 use BitsHost\UpmvcSaas\Notify\NotifyRegistry;
+use BitsHost\UpmvcSaas\Security\SecretBox;
 use BitsHost\UpmvcSaas\Security\Totp;
 use PHPUnit\Framework\TestCase;
 
@@ -36,6 +37,45 @@ final class HarvestKernelTest extends TestCase
         $secret = Totp::newSecret();
         $sealed = Totp::seal($secret);
         $this->assertStringStartsWith('v1:', $sealed);
+        $this->assertSame($secret, Totp::unseal($sealed));
+    }
+
+    /** Pack unseal must still read myCMMS-era SMTP seals (`|smtp-password-v1`). */
+    public function testSecretBoxUnsealsLegacySmtpPepper(): void
+    {
+        $src = 'harvest-dual-unseal-app-key';
+        $_ENV['APP_KEY'] = $src;
+        putenv('APP_KEY=' . $src);
+        unset($_ENV['JWT_SECRET']);
+        putenv('JWT_SECRET');
+
+        $plain = 'smtp-password-legacy-proof';
+        $key = hash('sha256', $src . '|smtp-password-v1', true);
+        $iv = random_bytes(12);
+        $tag = '';
+        $ct = openssl_encrypt($plain, 'aes-256-gcm', $key, OPENSSL_RAW_DATA, $iv, $tag);
+        $this->assertNotFalse($ct);
+        $blob = 'v1:' . base64_encode($iv . $tag . $ct);
+
+        $this->assertSame($plain, SecretBox::unseal($blob));
+        // New writes use pack pepper only
+        $this->assertSame($plain, SecretBox::unseal(SecretBox::seal($plain)));
+    }
+
+    /** Pack unseal must still read myCMMS-era TOTP seals (`mycmms-totp|`). */
+    public function testTotpUnsealsLegacyMycmmsPepper(): void
+    {
+        $jwt = 'harvest-dual-unseal-jwt-secret';
+        $_ENV['JWT_SECRET'] = $jwt;
+        putenv('JWT_SECRET=' . $jwt);
+
+        $secret = Totp::newSecret();
+        $key = hash('sha256', 'mycmms-totp|' . $jwt, true);
+        $iv = random_bytes(16);
+        $cipher = openssl_encrypt($secret, 'AES-256-CBC', $key, OPENSSL_RAW_DATA, $iv);
+        $this->assertNotFalse($cipher);
+        $sealed = 'v1:' . base64_encode($iv . $cipher);
+
         $this->assertSame($secret, Totp::unseal($sealed));
     }
 

@@ -7,12 +7,12 @@ This layer was proven in `myCMMS-PHP` and harvested into the pack so every SaaS 
 | Piece | Namespace / path | Role |
 |---|---|---|
 | Mail gateway | `BitsHost\UpmvcSaas\Mail\MailGateway` | Platform SMTP + plan-gated tenant SMTP + `.env` fallback + `email_log` |
-| Secret seal | `BitsHost\UpmvcSaas\Security\SecretBox` | AES-GCM for SMTP passwords |
+| Secret seal | `BitsHost\UpmvcSaas\Security\SecretBox` | AES-GCM for SMTP passwords (dual-unseal; see below) |
 | Notify registry | `BitsHost\UpmvcSaas\Notify\NotifyRegistry` | Apps **register** types; pack stays empty |
 | Notify gate | `BitsHost\UpmvcSaas\Notify\NotifyGate` | Global pause / kill switch |
 | Notify fire | `BitsHost\UpmvcSaas\Notify\Notify` | Instant send with mute + MailGateway |
 | Audit | `BitsHost\UpmvcSaas\Audit\AuditLog` | Append-only trail + impersonator |
-| TOTP | `BitsHost\UpmvcSaas\Security\Totp` | Platform MFA helper |
+| TOTP | `BitsHost\UpmvcSaas\Security\Totp` | Platform MFA helper (dual-unseal; see below) |
 | Attention | `BitsHost\UpmvcSaas\Ops\Attention` | SMTP / email fails / scheduler / flags |
 | Settings | `BitsHost\UpmvcSaas\Ops\PlatformSettings` | Key/value platform flags |
 | Heartbeat | `BitsHost\UpmvcSaas\Ops\SchedulerHeartbeat` | Cron liveness |
@@ -39,6 +39,19 @@ Notify::fire($tenantId, 'invoice_paid', [['id' => 1, 'email' => $to]], function 
 ```
 
 Override `App\Modules\Api\Modules\PlatformOps` in the consuming app to add domain Attention items (plan limits, trials, CMMS metrics, …).
+
+Harvest kernel classes are **not** `final` — products may thin-extend (e.g. `App\Cmms\MailGateway extends BitsHost\…`) to keep call-site namespaces stable.
+
+## Seal vs unseal (dual-unseal continuity)
+
+When secrets moved from myCMMS into the pack, only the **pepper string** changed. Existing DB rows still use CMMS peppers.
+
+| | Write (`seal`) | Read (`unseal`) |
+|---|---|---|
+| **SecretBox** | `{APP_KEY\|JWT}\|saas-secret-v1` only | also `|smtp-password-v1` (+ historical insecure-dev candidates) |
+| **Totp** | `upmvc-saas-totp\|{JWT_SECRET}` only | also `mycmms-totp\|{JWT_SECRET}` |
+
+Dual-unseal is a **read bridge**, not dual-write. After a successful unseal + re-save, the next `seal()` stores the pack pepper only. Keep legacy peppers until every known consumer has re-saved; drop them only in a deliberate major with a migration plan.
 
 ## Deliberately not in this harvest
 

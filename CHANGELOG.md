@@ -23,6 +23,10 @@ Lifted from the `myCMMS-PHP` probe into pack libraries so every SaaS product get
 
 #### Changed
 - **`App\Modules\Mail\MailController`** — delegates to `MailGateway` (legacy helpers kept, deprecated).
+- **Harvest kernel classes** (`AuditLog`, `Totp`, `SecretBox`, `MailGateway`, `NotifyGate`, `Notify`) — dropped `final` so consuming apps can thin-extend without import churn.
+- **`Security\SecretBox` / `Security\Totp`** — dual-unseal read bridge: `seal()` writes with pack peppers only; `unseal()` also accepts myCMMS legacy peppers (`|smtp-password-v1`, `mycmms-totp|`) so path installs do not brick existing SMTP/MFA rows. See `docs/09-harvest-ops.md`.
+- **`.gitignore`** — ignore local `vault/` (agent handoff notes; never commit contents).
+- **`tests/Unit/HarvestKernelTest.php`** — dual-unseal coverage for legacy SMTP and TOTP peppers.
 
 #### Deliberately out of pack
 - Domain notify types, payments/billing, full PlatformAdmin UI tabs, AI translate.

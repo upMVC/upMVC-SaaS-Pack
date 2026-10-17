@@ -5,7 +5,7 @@ namespace BitsHost\UpmvcSaas\Notify;
 use App\Etc\Database;
 
 /** Global kill switch for registered notification types. */
-final class NotifyGate
+class NotifyGate
 {
     public static function isPaused(string $type): bool
     {

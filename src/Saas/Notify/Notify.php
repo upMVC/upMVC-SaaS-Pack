@@ -11,7 +11,7 @@ use BitsHost\UpmvcSaas\Mail\MailGateway;
  *
  * Digests / role resolution stay in the app — pass an explicit $users list.
  */
-final class Notify
+class Notify
 {
     /**
      * @param list<array{id?:int,email:string,name?:string}> $users
