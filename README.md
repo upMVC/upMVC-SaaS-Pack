@@ -2,9 +2,18 @@
 
 Installable SaaS module pack for upMVC (`bitshost/upmvc-saas-pack`).
 
-Adds multi-tenant SaaS capabilities to an upMVC application without turning the core framework into a SaaS-only project.
+Adds multi-tenant SaaS capabilities to an upMVC application without turning the core framework into a SaaS-only project. This repo is a **Composer library**, not a runnable app.
 
 **Current release:** [**v1.1.0 — Harvest**](https://github.com/upMVC/upMVC-SaaS-Pack/releases/tag/v1.1.0) — tenancy v1.0 + Harvest ops kernel (mail, notify primitives, audit, TOTP, Attention, i18n overlays).
+
+**Start here**
+
+| Link | Role |
+|------|------|
+| [BUILD_SAAS_APP](https://github.com/upMVC/upMVC/blob/main/docs/BUILD_SAAS_APP.md) | How to compose kernel + this pack + host |
+| [upMVC-SaaS](https://github.com/upMVC/upMVC-SaaS) | Thin starter host that `require`s this pack |
+| [upMVC-Payments-Pack](https://github.com/upMVC/upMVC-Payments-Pack) | Optional payments (separate pack; ships `saas-kit.json`) |
+| [`docs/SAAS_NEXT.md`](docs/SAAS_NEXT.md) | Host CLI: `saas-next` doctor / init / scaffold |
 
 ## What This Pack Adds
 
@@ -38,19 +47,15 @@ See **[`docs/09-harvest-ops.md`](docs/09-harvest-ops.md)** for wiring, dual-unse
 ## Intended Architecture
 
 ```text
-bitshost/upmvc
-  standalone project + reusable kernel
-
-bitshost/upmvc-saas-pack
-  installable SaaS module pack (tenancy + Harvest)
-
-bitshost/upmvc-saas / product apps (e.g. myCMMS-PHP)
-  require both; register SaasServiceProvider; own domain modules
+bitshost/upmvc                 → kernel
+bitshost/upmvc-saas-pack       → this pack (tenancy + Harvest)
+bitshost/upmvc-payments-pack   → optional payments
+upMVC-SaaS / your product      → thin host: public/, .env, packages.php, domain modules
 ```
 
 ## Install In An upMVC App
 
-Requires **upMVC ^2.4** (library-mode `Application`, module/migration paths, middleware factories).
+Requires **upMVC ^2.4+** (prefer `^2.5` with current starter pins). Library-mode `Application`, module/migration paths, middleware factories.
 
 ```bash
 composer require bitshost/upmvc-saas-pack
