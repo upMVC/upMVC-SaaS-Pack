@@ -4,6 +4,9 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
+### Changed
+- **PHP floor raised to `>=8.3`** — Composer + CI (`8.3` / `8.4`). Matches the upMVC kernel line; use a patched 8.3.x runtime.
+
 ### Added
 - **`bin/saas-next.php`** — compose helper for host apps (`doctor`, `init`, `agent`, `scaffold-domain`, `packs`)
 - **`saas-kit.json`** — pack manifest so saas-next (and future tools) discover this floor

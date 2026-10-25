@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e56ee386cc3cdf947b03513b0c64792b",
+    "content-hash": "95d68089a0b35d6c55e84c228b4ddd85",
     "packages": [
         {
             "name": "bitshost/upmvc",
@@ -1963,7 +1963,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.1"
+        "php": ">=8.3"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"

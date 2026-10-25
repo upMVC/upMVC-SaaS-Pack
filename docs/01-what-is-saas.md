@@ -30,7 +30,7 @@ Your product (cars, invoices, bookings, whatever)
         ↓
      upMVC      ← routing, modules, MVC, middleware, config
         ↓
-      PHP 8.1+
+      PHP 8.3+
 ```
 
 Your product fills in the `Api/*` modules. Everything below is already there.

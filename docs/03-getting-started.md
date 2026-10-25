@@ -4,7 +4,7 @@ This package is an installable SaaS pack for an upMVC application. It is not a s
 
 ## Requirements
 
-- PHP 8.1+
+- PHP 8.3+
 - MySQL 5.7+ / MariaDB 10.3+
 - Composer
 - An upMVC host application
