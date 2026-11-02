@@ -4,13 +4,18 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
+## [1.2.0] — PHP 8.3 floor + saas-next (2026-11-02)
+
+Requires **PHP 8.3+** and pairs with **upMVC 2.6+** (Composer `^2.4` still resolves 2.6.x). Use a patched 8.3.x runtime.
+
 ### Changed
-- **PHP floor raised to `>=8.3`** — Composer + CI (`8.3` / `8.4`). Matches the upMVC kernel line; use a patched 8.3.x runtime.
+- **PHP floor raised to `>=8.3`** — Composer + CI (`8.3` / `8.4`). Matches the upMVC kernel line.
 
 ### Added
 - **`bin/saas-next.php`** — compose helper for host apps (`doctor`, `init`, `agent`, `scaffold-domain`, `packs`)
 - **`saas-kit.json`** — pack manifest so saas-next (and future tools) discover this floor
 - **`docs/SAAS_NEXT.md`** + **`docs/templates/AGENTS.host.md`**
+- README “Start here” links (BUILD_SAAS_APP, starter, payments, saas-next)
 
 Discovery scans `vendor/*/*/saas-kit.json` so optional packs (e.g. payments) appear without hard-coding.
 

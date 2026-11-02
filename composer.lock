@@ -4,27 +4,28 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95d68089a0b35d6c55e84c228b4ddd85",
+    "content-hash": "39700cd267efb62e1544c0121ddace4c",
     "packages": [
         {
             "name": "bitshost/upmvc",
-            "version": "v2.4.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/upMVC/upMVC.git",
-                "reference": "67bec0c188f045b46cb0c3f939a5d886aeb72cb4"
+                "reference": "75a8185b06f774830a1d90dc75d93851dc324a9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/upMVC/upMVC/zipball/67bec0c188f045b46cb0c3f939a5d886aeb72cb4",
-                "reference": "67bec0c188f045b46cb0c3f939a5d886aeb72cb4",
+                "url": "https://api.github.com/repos/upMVC/upMVC/zipball/75a8185b06f774830a1d90dc75d93851dc324a9c",
+                "reference": "75a8185b06f774830a1d90dc75d93851dc324a9c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1",
+                "php": ">=8.3",
                 "phpmailer/phpmailer": "^6.9"
             },
             "require-dev": {
+                "gabordemooij/redbean": "^5.7",
                 "phpstan/phpstan": "^1.10",
                 "phpunit/phpunit": "^11.0"
             },
@@ -52,9 +53,9 @@
             "description": "upMVC. Modular Model View Controller. A modular PHP MVC system with integrated routing for scalable and organized web applications. Built-in Namespace Support. Object-Oriented Programming (OOP).",
             "support": {
                 "issues": "https://github.com/upMVC/upMVC/issues",
-                "source": "https://github.com/upMVC/upMVC/tree/v2.4.0"
+                "source": "https://github.com/upMVC/upMVC/tree/2.6.0"
             },
-            "time": "2026-07-29T14:07:41+00:00"
+            "time": "2026-11-02T13:19:20+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
