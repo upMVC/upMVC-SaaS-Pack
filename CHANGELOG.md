@@ -4,6 +4,8 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
+## [1.2.1] — PHPStan 2 + composer check (2026-11-26)
+
 ### Changed
 - **QA** — PHPStan `^2.2`; Composer scripts `test` / `analyse` / `check`.
 
