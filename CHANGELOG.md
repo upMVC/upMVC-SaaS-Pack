@@ -4,6 +4,9 @@ All notable changes to `bitshost/upmvc-saas-pack`.
 
 ## [Unreleased]
 
+### Changed
+- **QA** — PHPStan `^2.2`; Composer scripts `test` / `analyse` / `check`.
+
 ## [1.2.0] — PHP 8.3 floor + saas-next (2026-11-02)
 
 Requires **PHP 8.3+** and pairs with **upMVC 2.6+** (Composer `^2.4` still resolves 2.6.x). Use a patched 8.3.x runtime.
